@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sentence Analyzer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Sentence Analyzer</h1>
+    <input type="text" id="sentence" placeholder="Enter sentence ending with a point (.)">
+    <button onclick="analyze()">Analyze</button>
+    <div id="output"></div>
+
+    <script>
+        function analyze() {
+            // Get the sentence
+            let s = document.getElementById('sentence').value;
+            
+            // Check if ends with point
+            if (s[s.length - 1] !== '.') {
+                alert('Must end with a point!');
+                return;
+            }
+
+            // THREE COUNTERS
+            let len = 0;      // Counts characters
+            let words = 0;    // Counts words
+            let vowels = 0;   // Counts vowels
+
+            // Vowels
+            let v = 'aeiouAEIOU';
+            
+            // Track if in a word
+            let inWord = false;
+
+            // Process each character
+            for (let i = 0; i < s.length; i++) {
+                let c = s[i];
+                len++;  // Count every character
+                
+                // Count vowels
+                if (v.includes(c)) {
+                    vowels++;
+                }
+                
+                // Space means word ended
+                if (c === ' ') {
+                    words++;
+                    inWord = false;
+                } 
+                // Not space or point means in a word
+                else if (c !== '.') {
+                    inWord = true;
+                }
+                
+                // Last character is point
+                if (c === '.' && i === s.length - 1) {
+                    // Count last word
+                    if (inWord) {
+                        words++;
+                    }
+                }
+            }
+
+            // Show results
+            document.getElementById('output').innerHTML = 
+                '<div class="result">' +
+                '<strong>Results:</strong><br>' +
+                'Length: ' + len + ' characters<br>' +
+                'Words: ' + words + '<br>' +
+                'Vowels: ' + vowels +
+                '</div>';
+        }
+    </script>
+</body>
+</html>
